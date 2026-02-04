@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Saba</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffc3a0);
+      background-size: 400% 400%;
+      animation: bgMove 12s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .page { display: none; }
+    .active { display: block; }
+
+    h1 {
+      font-size: 2.6rem;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 120px;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background: #000;
+      color: #fff;
+      margin-right: 20px;
+    }
+
+    #noBtn {
+      background: #eee;
+      position: absolute;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 24px;
+      opacity: 0.7;
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-110vh) scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    .flower {
+      position: fixed;
+      top: -40px;
+      font-size: 30px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PAGE 1 -->
+  <div id="page1" class="page active">
+    <h1>Will you be my Valentine, Saba?</h1>
+    <p>(No is a little shy)</p>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div id="page2" class="page">
+    <h1>Yay! She said YES 💖</h1>
+    <p><strong>Congratulations Saba!</strong></p>
+    <p>
+      This moment just became a beautiful memory ✨<br><br>
+      You are my today, my tomorrow, and my forever.<br>
+      Thank you for being my wife, my love, my best friend.<br><br>
+      I love you endlessly ❤️
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+
+    // NO button dodges
+    noBtn.addEventListener("mouseenter", () => {
+      const x = Math.random() * 250 - 120;
+      const y = Math.random() * 120 - 60;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    // YES button
+    yesBtn.addEventListener("click", () => {
+      page1.classList.remove("active");
+      page2.classList.add("active");
+
+      confetti({
+        particleCount: 220,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+
+      for (let i = 0; i < 30; i++) createFlower();
+    });
+
+    function createFlower() {
+      const flower = document.createElement("div");
+      flower.className = "flower";
+      flower.textContent = "🌸";
+      flower.style.left = Math.random() * 100 + "vw";
+      flower.style.animationDuration = Math.random() * 3 + 3 + "s";
+      document.body.appendChild(flower);
+      setTimeout(() => flower.remove(), 6000);
+    }
+
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = Math.random() * 4 + 6 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 10000);
+    }, 500);
+  </script>
+
+</body>
+</html>
